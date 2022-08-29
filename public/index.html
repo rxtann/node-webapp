@@ -47,9 +47,13 @@
                       </a>
                       <div class="p-6">
                         <h5 class="text-gray-900 text-xl font-medium mb-2">SEHUN EXO </h5>
+                        <h5 class="text-gray-900 text-xl font-medium mb-2" id="studentName" >Name: </h5>
+                        <h5 class="text-gray-900 text-xl font-medium mb-2" id="studentID" >Student ID: </h5>
+                        <h5 class="text-gray-900 text-xl font-medium mb-2" id="studentGpa" >GPA: </h5>
+                       <h5 class="text-gray-900 text-xl font-medium mb-2" id="studentPosition">Position: </h5>
                         <p class="text-gray-700 text-base mb-4">
-                          Full name:Oh Se-hun</p>Native name: 오세훈 </p>Birthday: Apr 12, 1994 </p>
-                          Age: 28 years 
+                        <p class="text-gray-700 text-base mb-4">
+
                         </p>
                         <button type="button" class=" inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Button</button>
                       </div>
@@ -107,7 +111,7 @@
            headers: { 
              'Content-Type': 'application/json',
              "Accepts": "application/json",
-             "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC90b29scy5lY3BlLm51LmFjLnRoXC9uZXR3b3JrXC9hcGlcL2xvZ2luIiwiaWF0IjoxNjU5MTE4NDc2LCJleHAiOjE2NTkxMjIwNzYsIm5iZiI6MTY1OTExODQ3NiwianRpIjoiTFJuWXZ5cnNGNVZ2ZU1ZcSIsInN1YiI6ODQsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.v3OoAPNHoXpMlQRq3hWjueZfmUml3bmtC_FB0oQ_rVw",
+             "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC90b29scy5lY3BlLm51LmFjLnRoXC9uZXR3b3JrXC9hcGlcL2xvZ2luIiwiaWF0IjoxNjYxNzY3MDMyLCJleHAiOjE2NjE3NzA2MzIsIm5iZiI6MTY2MTc2NzAzMiwianRpIjoiN1RzMkRJUmkxRnU4MmFKMSIsInN1YiI6ODQsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.e_WzcTy4Y2mIKrMyp1drXLVPi6y4Zk-5ee63vI3lnqg",
            },
            success: function(data){
              console.log(data);
@@ -246,7 +250,7 @@
           //elementButtonSave.setAttribute("class","tealA400");
           
          
-          elementButtonSave.setAttribute("onclick","popupConfirm('"+items[i].fullname+"',this)");
+          elementButtonSave.setAttribute("onclick", "sendData('" + items[i].student_id+ "')");
           
   
           cell5.appendChild(elementButtonSave);
@@ -262,5 +266,25 @@
   
     function popupConfirm(fullname,objElement){
       alert(fullname);
+    }
+    function sendData(id){
+      //console.log(id);
+      $.ajax({
+        method: "GET",
+        url: "https://tools.ecpe.nu.ac.th/network/api/student/"+id,
+        dataType: 'json',
+        headers: {
+          'Content-Type': 'application/json',
+          "Accepts": "application/json",
+          "Authorization": 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC90b29scy5lY3BlLm51LmFjLnRoXC9uZXR3b3JrXC9hcGlcL2xvZ2luIiwiaWF0IjoxNjYxNzY3MDMyLCJleHAiOjE2NjE3NzA2MzIsIm5iZiI6MTY2MTc2NzAzMiwianRpIjoiN1RzMkRJUmkxRnU4MmFKMSIsInN1YiI6ODQsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.e_WzcTy4Y2mIKrMyp1drXLVPi6y4Zk-5ee63vI3lnqg ',
+        },
+        success: function(data){
+          console.log(data);
+          document.getElementById("studentName").innerHTML = "Name: "+data[0].fullname;
+          document.getElementById("studentID").innerHTML = "Student_ID: "+data[0].student_id;
+          document.getElementById("studentGpa").innerHTML = "GPA: "+data[0].gpa;
+          document.getElementById("studentPosition").innerHTML = "Position: "+data[0].position;
+        }
+      });
     }
   </script>
